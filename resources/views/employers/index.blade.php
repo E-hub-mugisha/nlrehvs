@@ -15,7 +15,6 @@
                 <th>Company</th>
                 <th>Registration #</th>
                 <th>Status</th>
-                <th>Documents</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -24,13 +23,9 @@
             <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $employer->company_name }}</td>
-                <td>{{ $employer->business_registration_number }}</td>
+                <td>{{ $employer->registration_number }}</td>
                 <td>{{ ucfirst($employer->status) }}</td>
-                <td>
-                    @if($employer->documents)
-                        <a href="{{ asset('storage/'.$employer->documents) }}" target="_blank">View</a>
-                    @endif
-                </td>
+                
                 <td>
                     @if($employer->status == 'pending')
                         <form action="{{ route('admin.employers.approve', $employer->id) }}" method="POST" class="d-inline">

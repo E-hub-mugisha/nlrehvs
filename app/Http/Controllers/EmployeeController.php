@@ -28,4 +28,13 @@ class EmployeeController extends Controller
         return redirect()->route('employee.search')
             ->with('success', 'Employee registered successfully.');
     }
+
+    public function myHistory()
+    {
+        $employee = auth()->user()->employee;
+
+        $histories = $employee->employmentHistories;
+
+        return view('employee.history', compact('histories'));
+    }
 }

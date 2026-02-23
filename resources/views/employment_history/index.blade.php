@@ -123,4 +123,34 @@
         </div>
     </div>
 </div>
+
+{{-- Only show if employee owns the record --}}
+@if(auth()->user()->role === 'employee' && auth()->user()->employee->id === $employee->id)
+    <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#disputeModal">
+        Raise Dispute
+    </button>
+
+    <!-- Dispute Modal -->
+    <div class="modal fade" id="disputeModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form action="{{ route('disputes.store', $history->id) }}" method="POST">
+                    @csrf
+                    <div class="modal-header">
+                        <h5 class="modal-title">Dispute Employment History</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <textarea name="reason" class="form-control" rows="4" placeholder="Explain why you dispute this record" required></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-warning">Submit Dispute</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+@endif
+
 @endsection

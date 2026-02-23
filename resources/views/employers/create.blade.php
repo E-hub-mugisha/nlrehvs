@@ -16,23 +16,7 @@
         </div>
         <div class="mb-3">
             <label>Business Registration Number</label>
-            <input type="text" name="business_registration_number" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label>Tax ID</label>
-            <input type="text" name="tax_id" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label>Phone</label>
-            <input type="text" name="phone" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label>Email</label>
-            <input type="email" name="email" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label>Upload Documents (PDF, JPG, PNG)</label>
-            <input type="file" name="documents" class="form-control">
+            <input type="text" name="registration_number" class="form-control" required>
         </div>
         <button type="submit" class="btn btn-primary">Submit for Approval</button>
     </form>

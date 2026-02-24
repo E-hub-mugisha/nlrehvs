@@ -22,12 +22,13 @@ class Employee extends Model
     //     'national_id' => 'encrypted',
     // ];
 
-    public function user()
-    {
-        return $this->hasOne(User::class);
-    }
+
     public function employmentHistories()
     {
         return $this->hasMany(EmploymentHistory::class);
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

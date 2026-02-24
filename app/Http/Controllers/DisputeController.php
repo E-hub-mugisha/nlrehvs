@@ -36,7 +36,7 @@ class DisputeController extends Controller
     public function index()
     {
         $disputes = Dispute::with(['employmentHistory', 'employee'])->orderBy('status')->get();
-        return view('admin.disputes.index', compact('disputes'));
+        return view('disputes.index', compact('disputes'));
     }
 
     // Admin resolves dispute

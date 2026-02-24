@@ -88,6 +88,33 @@
                 </li>
 
             </ul>
+            @elseif(auth()->user()->role === 'employer')
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
+                        Dashboard
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('employee.search') ? 'active' : '' }}" href="{{ route('employee.search') }}">
+                        Employee Search
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('employer.history.index') ? 'active' : '' }}" href="{{ route('employer.history.index') }}">
+                        Employment History
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('employer.disputes.index') ? 'active' : '' }}" href="{{ route('employer.disputes.index') }}">
+                        Disputes
+                    </a>
+                </li>
+            </ul>
             @endif
             <!-- User Dropdown -->
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">

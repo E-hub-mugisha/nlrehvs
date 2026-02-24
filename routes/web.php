@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DisputeController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EmployeeSearchController;
@@ -22,6 +23,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::get('/register/choose', [AuthController::class, 'choose'])->name('register.choose');
+Route::post('/register/employee/store', [AuthController::class, 'storeEmployeeSingle'])->name('register.employee.store');
+Route::post('/register/combined/store', [AuthController::class, 'storeCombined'])->name('register.combined.store');
+
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/employee/search', [EmployeeSearchController::class, 'index'])
@@ -31,7 +36,12 @@ Route::middleware(['auth'])->group(function () {
         ->name('employee.search.submit');
 
     Route::resource('employees', EmployeeController::class);
+    Route::post('/employee/store', [EmployeeController::class, 'storeEmployee'])
+        ->name('employees.storeEmployee');
+
     Route::resource('employers', EmployerController::class);
+    Route::post('/employer/store', [EmployerController::class, 'storeEmployer'])
+        ->name('employers.storeEmployer');
     Route::get(
         '/employees/{employee}/history',
         [EmploymentHistoryController::class, 'index']
@@ -73,6 +83,30 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/my-disputes', [DisputeController::class, 'store'])
         ->name('employee.disputes.store');
+
+    // Employer Profile
+
+    // Employee Search / Verification
+    Route::get('/employee/search', [EmployeeSearchController::class, 'index'])
+        ->name('employee.search');
+
+    Route::post('/employee/search', [EmployeeSearchController::class, 'search'])
+        ->name('employee.search.submit');
+
+    // Employment History Management
+    Route::get('/history', [EmploymentHistoryController::class, 'index'])->name('employer.history.index');
+    Route::get('/history/create', [EmploymentHistoryController::class, 'create'])->name('employer.history.create');
+    Route::post('/history/store', [EmploymentHistoryController::class, 'store'])->name('employer.history.store');
+    Route::get('/history/{history}/edit', [EmploymentHistoryController::class, 'edit'])->name('employer.history.edit');
+    Route::put('/history/{history}', [EmploymentHistoryController::class, 'update'])->name('employer.history.update');
+    Route::delete('/history/{history}', [EmploymentHistoryController::class, 'destroy'])->name('employer.history.destroy');
+
+    // Disputes Management
+    Route::get('/disputes', [DisputeController::class, 'index'])->name('employer.disputes.index');
+    Route::get('/disputes/create', [DisputeController::class, 'create'])->name('employer.disputes.create');
+    Route::post('/disputes/store', [DisputeController::class, 'store'])->name('employer.disputes.store');
+    Route::get('/disputes/{dispute}/show', [DisputeController::class, 'show'])->name('employer.disputes.show');
+    Route::put('/disputes/{dispute}/resolve', [DisputeController::class, 'resolve'])->name('employer.disputes.resolve');
 });
 
 require __DIR__ . '/auth.php';

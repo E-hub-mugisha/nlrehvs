@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('employment_histories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('employee_id')->constrained('employees');
+            $table->foreignId('employee_id')
+                ->constrained('employees')
+                ->onDelete('cascade');
             $table->foreignId('employer_id')->constrained('users');
-             $table->string('company_name');
+            $table->string('company_name');
             $table->date('start_date');
             $table->date('end_date')->nullable();
             $table->string('exit_reason')->nullable();

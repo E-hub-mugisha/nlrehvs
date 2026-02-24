@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\EmploymentHistoryAddedMail;
 use App\Models\Employee;
+use App\Models\Employer;
 use App\Models\EmploymentHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,20 +29,11 @@ class EmploymentHistoryController extends Controller
         ]);
 
         $user = Auth::user();
+        $employer = Employer::where('user_id', $user->id)->first();
 
-        // Check if user is an employer
-        if ($user->role === 'employer') {
-            $employer = $user->employer;
-
-            // Deny if employer account is not approved
-            if (!$employer || $employer->status !== 'approved') {
-                return redirect()->route('employers.create')
-                    ->with('error', 'Your employer account is not approved yet.');
-            }
-
-            // Track who added the record
+        // Track who added the record
             $data['employer_id'] = $employer->id;
-        }
+        
 
         // Save employment history and assign to variable
         $history = EmploymentHistory::create($data);

@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\AnalyticsController;
+use App\Http\Controllers\AuditLogController;
+use App\Http\Controllers\Auth\TwoFactorController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DisputeController;
 use App\Http\Controllers\EmployeeController;
@@ -21,6 +25,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/2fa/verify', [TwoFactorController::class, 'showVerifyForm'])->name('2fa.verify');
+    Route::post('/2fa/verify', [TwoFactorController::class, 'verify'])->name('2fa.verify.post');
+
+    Route::get('/profile/2fa', [TwoFactorController::class, 'showSetupForm'])->name('2fa.setup');
+    Route::post('/profile/2fa', [TwoFactorController::class, 'enable'])->name('2fa.enable');
+    Route::post('/profile/2fa/disable', [TwoFactorController::class, 'disable'])->name('2fa.disable');
 });
 
 Route::get('/register/choose', [AuthController::class, 'choose'])->name('register.choose');
@@ -107,6 +118,15 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/disputes/store', [DisputeController::class, 'store'])->name('employer.disputes.store');
     Route::get('/disputes/{dispute}/show', [DisputeController::class, 'show'])->name('employer.disputes.show');
     Route::put('/disputes/{dispute}/resolve', [DisputeController::class, 'resolve'])->name('employer.disputes.resolve');
+
+    Route::get('/analytics', [AnalyticsController::class, 'index'])
+        ->name('analytics.index');
+
+    Route::get('/reports/pdf', [ReportController::class, 'laborSummaryPDF'])->name('reports.pdf');
+
+    Route::get('/reports/excel',[ReportController::class, 'employmentHistoryExcel'])->name('reports.excel');
+
+    Route::get('/audit-logs', [AuditLogController::class, 'index'])->name('audit.logs.index');
 });
 
 require __DIR__ . '/auth.php';

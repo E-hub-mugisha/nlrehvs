@@ -50,7 +50,16 @@
                         Disputes
                     </a>
                 </li>
-
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('analytics.index') }}">
+                        Labor Analytics
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('audit.logs.index') }}">
+                        🔐 Audit Logs
+                    </a>
+                </li>
             </ul>
             @elseif(auth()->user()->role === 'employee')
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -130,7 +139,10 @@
                             </a>
                         </li>
                         <li>
-                            <hr class="dropdown-divider">
+                            <!-- Redirect to 2FA setup -->
+                            <a class="dropdown-item" href="{{ route('2fa.setup') }}">
+                                {{ __('Profile / 2FA Settings') }}
+                            </a>
                         </li>
                         <li>
                             <form method="POST" action="{{ route('logout') }}">

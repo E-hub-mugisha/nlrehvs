@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\AuditHelper;
 use App\Models\Dispute;
 use App\Models\EmploymentHistory;
 use Illuminate\Http\Request;
@@ -46,7 +47,12 @@ class DisputeController extends Controller
             'status' => 'resolved',
             'admin_comment' => 'Dispute resolved successfully.',
         ]);
-
+        AuditHelper::log(
+            'RESOLVE',
+            'Dispute',
+            $dispute->id,
+            'Dispute resolved by admin'
+        );
         return back()->with('success', 'Dispute resolved.');
     }
 

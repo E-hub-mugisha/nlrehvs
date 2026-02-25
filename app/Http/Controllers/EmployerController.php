@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\AuditHelper;
 use App\Models\Employer;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -65,6 +66,12 @@ class EmployerController extends Controller
     public function approve(Employer $employer)
     {
         $employer->update(['status' => 'approved']);
+        AuditHelper::log(
+            'APPROVE',
+            'Employer',
+            $employer->id,
+            'Employer account approved'
+        );
         return back()->with('success', 'Employer approved.');
     }
 
@@ -72,6 +79,12 @@ class EmployerController extends Controller
     public function reject(Employer $employer)
     {
         $employer->update(['status' => 'rejected']);
+        AuditHelper::log(
+            'REJECT',
+            'Employer',
+            $employer->id,
+            'Employer account rejected'
+        );
         return back()->with('success', 'Employer rejected.');
     }
 }

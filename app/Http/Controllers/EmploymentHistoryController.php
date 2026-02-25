@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\AuditHelper;
 use App\Mail\EmploymentHistoryAddedMail;
 use App\Models\Employee;
 use App\Models\Employer;
@@ -32,11 +33,18 @@ class EmploymentHistoryController extends Controller
         $employer = Employer::where('user_id', $user->id)->first();
 
         // Track who added the record
-            $data['employer_id'] = $employer->id;
-        
+        $data['employer_id'] = $employer->id;
+
 
         // Save employment history and assign to variable
         $history = EmploymentHistory::create($data);
+
+        AuditHelper::log(
+            'CREATE',
+            'EmploymentHistory',
+            $history->id,
+            'Employment history added by employer'
+        );
 
         // Send email to the employee
         $employee = $history->employee; // Relationship in EmploymentHistory model
